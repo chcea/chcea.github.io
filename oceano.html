@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>OCEAN</title>
-        <audio autoplay loop>
+        <audio id="Musica" autoplay loop>
             <source src="SpongeBob.mp3" type="audio/mpeg">
         </audio>
         <style>
@@ -47,6 +47,13 @@
         </style>
     </head>
         <script>
+            const musica = document.getElementById("musica");
+
+            document.addEventListener("pointerdown", function iniciarMusica() {
+                musica.play();
+                document.removeEventListener("pointerdown", iniciarMusica);
+            });    
+
             window.addEventListener("load", function() {
                 var mar = document.getElementById("MAR");
                 var ctx = mar.getContext("2d");
