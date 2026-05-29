@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>FISH</title>
+    </head>
+
+    <body>
+        <h1> DIBUJA TU PEZ</h1>
+        <P>usa el mouse para dibujar</P>
+        
+        <canvas id='lienzo' width="800" height="500"></canvas>
+        
+        <br>
+
+        <button onclick="borrar()">BORRAR</button>
+        <a href="oceano.html">IR AL OCEANO</a>
+        
+        <style>
+
+  /* Página completa */
+            body {
+                background: #001122;
+                color: white;
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 30px;
+            }
+
+            /* Título */
+            h1 {
+                font-size: 36px;
+                color: #00ccff;
+                margin-bottom: 8px;
+            }
+
+            /* Texto debajo del título */
+            p {
+                color: #aaaaaa;
+                margin-bottom: 20px;
+            }
+
+            /* El lienzo de dibujo */
+            #lienzo {
+                border: 2px solid #00ccff;
+                background: #001a33;
+                cursor: crosshair;
+                border-radius: 10px;
+            }
+
+            /* Todos los botones */
+            button {
+                background: #003355;
+                color: #00ccff;
+                border: 1px solid #00ccff;
+                padding: 10px 20px;
+                font-size: 15px;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-top: 16px;
+                margin-right: 8px;
+            }
+
+            /* Botón cuando pasas el mouse encima */
+            button:hover {
+                background: #00ccff;
+                color: #001122;
+            }
+
+            /* El link al océano */
+            a {
+                color: #00ccff;
+                font-size: 18px;
+                text-decoration: none;
+                margin-top: 16px;
+                border: 1px solid #00ccff;
+                padding: 10px 20px;
+                border-radius: 8px;
+            }
+
+            a:hover {
+                background: #00ccff;
+                color: #001122;
+            }
+
+        </style>
+    <script>
+        var lienzo = document.getElementById("lienzo");
+        var pincel = lienzo.getContext("2d");
+        var dibujando = false
+
+        lienzo.addEventListener("mousedown", function(e){
+            dibujando = true;
+            pincel.beginPath();
+            pincel.moveTo(e.offsetX, e.offsetY);
+        });
+
+        lienzo.addEventListener("mousemove", function(e){
+            if (dibujando){
+                pincel.lineTo(e.offsetX, e.offsetY);
+                pincel.strokeStyle = "#00ccff";
+                pincel.lineWidth = 5;
+                pincel.stroke();
+            }
+        });
+
+        lienzo.addEventListener("mouseup", function(){
+            dibujando = false;
+        });
+
+        function borrar(){
+            pincel.clearRect(0, 0, lienzo.width, lienzo.height);
+        }
+
+        document.querySelector("a").addEventListener("click", function(){
+            var imagen = lienzo.toDataURL();
+            localStorage.setItem("mipez", imagen);
+        });
+
+    </script>
+    </body>
+
+</html>
