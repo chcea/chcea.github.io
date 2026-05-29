@@ -48,6 +48,7 @@
                 background: #001a33;
                 cursor: crosshair;
                 border-radius: 10px;
+                touch-action: none; /* Para evitar que el navegador interprete los gestos táctiles como desplazamientos */
             }
 
             /* Todos los botones */
@@ -91,13 +92,13 @@
         var pincel = lienzo.getContext("2d");
         var dibujando = false
 
-        lienzo.addEventListener("mousedown", function(e){
+        lienzo.addEventListener("pointerdown", function(e){
             dibujando = true;
             pincel.beginPath();
             pincel.moveTo(e.offsetX, e.offsetY);
         });
 
-        lienzo.addEventListener("mousemove", function(e){
+        lienzo.addEventListener("pointermove", function(e){
             if (dibujando){
                 pincel.lineTo(e.offsetX, e.offsetY);
                 pincel.strokeStyle = "#00ccff";
@@ -106,9 +107,13 @@
             }
         });
 
-        lienzo.addEventListener("mouseup", function(){
+        lienzo.addEventListener("pointerup", function(){
             dibujando = false;
         });
+
+        lienzo.addEventListener("pointerleave", function(){
+            dibujando = false;
+});
 
         function borrar(){
             pincel.clearRect(0, 0, lienzo.width, lienzo.height);
