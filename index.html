@@ -14,7 +14,8 @@
         <br>
 
         <button onclick="borrar()">BORRAR</button>
-        <a href="oceano.html">IR AL OCEANO</a>
+        <a href="oceano.html" id="guardar">IR AL OCEANO</a>
+        <a href="acuario.html">VER ACUARIO</a>
         
         <style>
 
@@ -119,12 +120,26 @@
             pincel.clearRect(0, 0, lienzo.width, lienzo.height);
         }
 
-        document.querySelector("a").addEventListener("click", function(){
-            var imagen = lienzo.toDataURL();
-            localStorage.setItem("mipez", imagen);
+        function guardarPez(){
+            var dibujo = lienzo.toDataURL();
+            var listaGuardada = localStorage.getItem("listaPeces");
+            var lista = listaGuardada ? JSON.parse(listaGuardada) : [];
+            lista.push(dibujo);
+            localStorage.setItem("mipez", dibujo);
+            localStorage.setItem("listaPeces", JSON.stringify(lista));
+            pincel.clearRect(0, 0, lienzo.width, lienzo.height);
+            alert("Pez guardado en el acuario");
+        }
+
+        document.getElementById("guardar").addEventListener("click", function(){;
+            var dibujo = lienzo.toDataURL();
+            var listaGuardada = localStorage.getItem("listaPeces");
+            var lista = listaGuardada ? JSON.parse(listaGuardada) : [];
+            lista.push(dibujo);
+            localStorage.setItem("listaPeces", JSON.stringify(lista));
         });
 
-    </script>
+            </script>
     </body>
 
 </html>

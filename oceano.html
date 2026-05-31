@@ -46,64 +46,58 @@
 
         </style>
     </head>
-        <script>
-            const musica = document.getElementById("musica");
-
-            document.addEventListener("pointerdown", function iniciarMusica() {
-                musica.play();
-                document.removeEventListener("pointerdown", iniciarMusica);
-            });    
-
-            window.addEventListener("load", function() {
-                var mar = document.getElementById("MAR");
-                var ctx = mar.getContext("2d");
-
-                var pez = new Image();
-                var dibujo = localStorage.getItem("mipez");
-
-                var x = 50;
-                var y = 330;
-                var velocidad = 2;
-
-                function animar(){
-                    ctx.clearRect(0, 0, mar.width, mar.height);
-                    ctx.fillStyle = "#001a33";
-                    ctx.fillRect(0, 0, mar.width, mar.height);
-
-                    x += velocidad;
-                    if (x > mar.width){
-                        x = -100;
-                    }
-
-                    ctx.drawImage(pez, x, y, 200, 140);
-                    requestAnimationFrame(animar);
-                }
-
-                if (dibujo){
-                    pez.src = dibujo;
-                    pez.onload = animar;
-                } else {
-                    ctx.fillStyle = "#001a33";
-                    ctx.fillRect(0, 0, mar.width, mar.height);
-                    ctx.fillStyle = "white";
-                    ctx.font = "20px sans-serif";
-                    ctx.fillText("No hay dibujo guardado. Vuelve a dibujar.", 20, 220);
-                }
-            });
-        </script>
         <body style="background: #001122; color: white;">
             
             <H1> EL OCEANO glu glu glu glu 🫧</H1>
 
 
-            <canvas id="MAR" width="1000" height="600"
+            <canvas id="mar" width="1000" height="600"
             style="border: 2px solid #003366; display: block;">
             </canvas>
             
             <br>
             <a href="index.html" style="color: lightblue;">VOLVER A DIBUJAR</a>
+            <a href="acuario.html" style="color: lightblue;">VER ACUARIO</a>
 
+            <script>
+                var mar = document.getElementById("mar");
+                var ctx = mar.getContext("2d");
+
+                var listaGuardada = localStorage.getItem("listaPeces");
+                var lista = listaGuardada ? JSON.parse(listaGuardada) : [];
+
+                var peces = [];
+
+                for (var i = 0; i < lista.length; i++) {
+                    var img = new Image();
+                    img.src = lista[i];
+                    peces.push({
+                        imagen: img,
+                        x: Math.random() * (mar.width - 50),
+                        y: Math.random() * (mar.height - 50),
+                        velocidad: 1 + Math.random() * 2
+                        
+                    });
+                    };
+                function animar() {
+                    ctx.clearRect(0, 0, mar.width, mar.height);
+                    ctx.fillStyle = "#001a33";
+                    ctx.fillRect(0, 0, mar.width, mar.height);
+
+                    for (var i = 0; i < peces.length; i++) {
+                        var pez = peces[i];
+                        pez.x = pez.x + pez.velocidad;
+                        if (pez.x > mar.width) {
+                            pez.x = -100;
+                        }
+                        ctx.drawImage(pez.imagen, pez.x, pez.y, 100, 70);
+                        }
+
+                        requestAnimationFrame(animar);
+                }
+
+                animar();
+            </script>
         </body>
-
 
 </html>

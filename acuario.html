@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Mi Acuario</title>
+
+    <style>
+
+      body {
+        background: #000d1a;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 30px;
+      }
+
+      h1 {
+        color: #00ccff;
+        font-size: 36px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        color: #aaaaaa;
+        margin-bottom: 30px;
+      }
+
+      /* Contenedor de todas las peceras */
+      #galeria {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+      }
+
+      /* Cada pecera individual */
+      .pecera {
+        background: #001a33;
+        border: 2px solid #00ccff;
+        border-radius: 16px;
+        padding: 16px;
+        width: 200px;
+      }
+
+      /* El canvas de cada pez */
+      .pecera canvas {
+        border-radius: 8px;
+        background: #001122;
+      }
+
+      /* Nombre del pez debajo */
+      .pecera p {
+        color: #00ccff;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      a {
+        color: #00ccff;
+        text-decoration: none;
+        border: 1px solid #00ccff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-top: 30px;
+      }
+
+      a:hover {
+        background: #00ccff;
+        color: #001122;
+      }
+
+    </style>
+  </head>
+
+  <body>
+
+    <h1>🐠 Mi Acuario</h1>
+    <p>Todos los peces que has dibujado</p>
+
+    <!-- Aquí aparecerán las peceras -->
+    <div id="galeria"></div>
+
+    <br>
+    <a href="index.html">✏️ Dibujar otro pez</a>
+    &nbsp;&nbsp;
+    <a href="oceano.html">🌊 Ver el océano</a>
+
+    <script>
+
+      // 1. Recupera la lista de peces guardados
+      var listaGuardada = localStorage.getItem("listaPeces");
+      var lista = listaGuardada ? JSON.parse(listaGuardada) : [];
+
+      // 2. Referencia al contenedor de peceras
+      var galeria = document.getElementById("galeria");
+
+      // 3. Si no hay peces, muestra un mensaje
+      if (lista.length === 0) {
+        galeria.innerHTML = "<p style='color:#aaaaaa'>Aún no has dibujado ningún pez. ¡Ve a dibujar uno!</p>";
+      }
+
+      // 4. Por cada pez en la lista, crea una pecera
+      for (var i = 0; i < lista.length; i++) {
+
+        // Crea el contenedor de la pecera
+        var pecera = document.createElement("div");
+        pecera.className = "pecera";
+
+        // Crea un canvas pequeño para mostrar el pez
+        var canvas = document.createElement("canvas");
+        canvas.width = 160;
+        canvas.height = 100;
+
+        // Dibuja el pez en ese canvas
+        var ctx = canvas.getContext("2d");
+        var img = new Image();
+        img.src = lista[i];
+
+        // Necesitamos una función para que cada pez se dibuje bien
+        (function(contexto, imagen) {
+          imagen.onload = function() {
+            contexto.drawImage(imagen, 0, 0, 160, 100);
+          };
+        })(ctx, img);
+
+        // Crea el texto con el número del pez
+        var nombre = document.createElement("p");
+        nombre.textContent = "Pez #" + (i + 1);
+
+        // Ensambla la pecera: canvas + nombre
+        pecera.appendChild(canvas);
+        pecera.appendChild(nombre);
+
+        // Agrega la pecera a la galería
+        galeria.appendChild(pecera);
+      }
+
+    </script>
+
+  </body>
+</html>
