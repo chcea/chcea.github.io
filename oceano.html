@@ -61,12 +61,8 @@
 
             <script>
                 document.addEventListener("click", function() {
-                    var musica = document.getElementById("Musica");
-                    if (musica.paused) {
-                        musica.play();
-                    } else {
-                        musica.pause();
-                    }
+                    var musica = document.getElementById("Musica").play();
+
                 });
                 document.getElementById("Musica").play();
 
