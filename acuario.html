@@ -81,7 +81,6 @@
     <h1>🐠 Mi Acuario</h1>
     <p>Todos los peces que has dibujado</p>
 
-    <!-- Aquí aparecerán las peceras -->
     <div id="galeria"></div>
 
     <br>
@@ -95,51 +94,40 @@
         });
         document.getElementById("Musica2").play();
 
-      // 1. Recupera la lista de peces guardados
       var listaGuardada = localStorage.getItem("listaPeces");
       var lista = listaGuardada ? JSON.parse(listaGuardada) : [];
 
-      // 2. Referencia al contenedor de peceras
       var galeria = document.getElementById("galeria");
 
-      // 3. Si no hay peces, muestra un mensaje
       if (lista.length === 0) {
         galeria.innerHTML = "<p style='color:#aaaaaa'>Aún no has dibujado ningún pez. ¡Ve a dibujar uno!</p>";
       }
 
-      // 4. Por cada pez en la lista, crea una pecera
       for (var i = 0; i < lista.length; i++) {
 
-        // Crea el contenedor de la pecera
         var pecera = document.createElement("div");
         pecera.className = "pecera";
 
-        // Crea un canvas pequeño para mostrar el pez
         var canvas = document.createElement("canvas");
         canvas.width = 160;
         canvas.height = 100;
 
-        // Dibuja el pez en ese canvas
         var ctx = canvas.getContext("2d");
         var img = new Image();
         img.src = lista[i];
 
-        // Necesitamos una función para que cada pez se dibuje bien
         (function(contexto, imagen) {
           imagen.onload = function() {
             contexto.drawImage(imagen, 0, 0, 160, 100);
           };
         })(ctx, img);
 
-        // Crea el texto con el número del pez
         var nombre = document.createElement("p");
         nombre.textContent = "Pez #" + (i + 1);
 
-        // Ensambla la pecera: canvas + nombre
         pecera.appendChild(canvas);
         pecera.appendChild(nombre);
 
-        // Agrega la pecera a la galería
         galeria.appendChild(pecera);
       }
 
